@@ -986,7 +986,7 @@ local function setupRaidStateMonitor(id, headerFrame)
 		local header = self:GetFrameRef("raidHeader")
 		if( self:GetAttribute("raidDisabled") ) then
 			if( header:IsVisible() ) then
-				header:Hide() 
+				header:Hide()
 			end
 			return
 		end
