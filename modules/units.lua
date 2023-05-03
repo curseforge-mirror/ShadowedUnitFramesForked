@@ -1504,7 +1504,7 @@ local curableSpells = {
 	["MONK"] = {[115450] = {"Poison", "Disease", "Magic"}, [218164] = {"Poison", "Disease"}},
 	["MAGE"] = {[475] = {"Curse"}},
 	["WARLOCK"] = {[89808] = {"Magic"}},
-	["EVOKER"] = {[360823] = {"Magic", "Poison"}, [365585] = {"Poison"}, [374251] = {"Poison", "Disease", "Bleed", "Curse"}},
+	["EVOKER"] = {[365585] = {"Poison"}, [360823] = {"Magic", "Poison"}, [374251] = {"Poison", "Curse", "Disease"}}
 }
 
 curableSpells = curableSpells[playerClass]
@@ -1559,7 +1559,7 @@ centralFrame:SetScript("OnEvent", function(self, event, unit)
 		end
 
 	-- Monitor talent changes for curable changes
-	elseif( event == "PLAYER_SPECIALIZATION_CHANGED" or event == "UNIT_PET" ) then
+	elseif( event == "PLAYER_SPECIALIZATION_CHANGED" or event == "UNIT_PET" or event == "SPELLS_CHANGED") then
 		checkCurableSpells()
 
 		for frame in pairs(ShadowUF.Units.frameList) do
@@ -1575,6 +1575,7 @@ centralFrame:SetScript("OnEvent", function(self, event, unit)
 	elseif( event == "PLAYER_LOGIN" ) then
 		checkCurableSpells()
 		self:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+		self:RegisterEvent("SPELLS_CHANGED")
 		if( playerClass == "WARLOCK" ) then
 			self:RegisterUnitEvent("UNIT_PET", "player", nil)
 		end
