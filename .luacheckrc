@@ -142,6 +142,7 @@ read_globals = {
 	"UnitXPMax",
 
 	-- FrameXML frames
+	"AlternatePowerBar",
 	"ArenaEnemyFramesContainer",
 	"ArenaEnemyPrepFramesContainer",
 	"ArenaEnemyMatchFramesContainer",
@@ -153,6 +154,7 @@ read_globals = {
 	"CompactRaidFrameManager",
 	"DebuffFrame",
 	"DEFAULT_CHAT_FRAME",
+	"EssencePlayerFrame",
 	"FocusFrame",
 	"FocusFrameToT",
 	"GameTooltip",
