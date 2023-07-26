@@ -293,11 +293,11 @@ function Indicators:UpdateReadyCheck(frame, event)
 	end
 
 	if( status == "ready" ) then
-		frame.indicators.ready:SetTexture(READY_CHECK_READY_TEXTURE)
+		frame.indicators.ready:SetTexture("Interface\\RaidFrame\\ReadyCheck-Ready")
 	elseif( status == "notready" ) then
-		frame.indicators.ready:SetTexture(READY_CHECK_NOT_READY_TEXTURE)
+		frame.indicators.ready:SetTexture("Interface\\RaidFrame\\ReadyCheck-NotReady")
 	elseif( status == "waiting" ) then
-		frame.indicators.ready:SetTexture(READY_CHECK_WAITING_TEXTURE)
+		frame.indicators.ready:SetTexture("Interface\\RaidFrame\\ReadyCheck-Waiting")
 	end
 
 	frame.indicators:SetScript("OnUpdate", nil)
