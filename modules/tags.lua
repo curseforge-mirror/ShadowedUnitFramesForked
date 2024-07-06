@@ -380,14 +380,14 @@ end})
 
 -- Going to have to start using an env wrapper for tags I think
 local Druid = {}
-Druid.CatForm = GetSpellInfo(768)
-Druid.MoonkinForm = GetSpellInfo(24858)
-Druid.TravelForm = GetSpellInfo(783)
-Druid.BearForm = GetSpellInfo(5487)
-Druid.TreeForm = GetSpellInfo(33891)
-Druid.AquaticForm = GetSpellInfo(1066)
-Druid.SwiftFlightForm = GetSpellInfo(40120)
-Druid.FlightForm = GetSpellInfo(33943)
+Druid.CatForm = C_Spell.GetSpellInfo(768)
+Druid.MoonkinForm = C_Spell.GetSpellInfo(24858)
+Druid.TravelForm = C_Spell.GetSpellInfo(783)
+Druid.BearForm = C_Spell.GetSpellInfo(5487)
+Druid.TreeForm = C_Spell.GetSpellInfo(33891)
+Druid.AquaticForm = C_Spell.GetSpellInfo(1066)
+Druid.SwiftFlightForm = C_Spell.GetSpellInfo(40120)
+Druid.FlightForm = C_Spell.GetSpellInfo(33943)
 ShadowUF.Druid = Druid
 
 Tags.defaultTags = {
@@ -1570,7 +1570,7 @@ end
 
 
 -- Checker function, makes sure tags are all happy
---@debug@
+--[==[@debug@
 function Tags:Verify()
 	local fine = true
 	for tag, events in pairs(self.defaultEvents) do
@@ -1615,4 +1615,4 @@ function Tags:Verify()
 		print("Verified tags, everything is fine.")
 	end
 end
---@end-debug@
+--@end-debug@]==]
