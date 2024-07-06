@@ -5517,7 +5517,6 @@ local function loadFilterOptions()
 			none = filterTable,
 			pvp = filterTable,
 			arena = filterTable,
-			battleground = filterTable,
 			party = filterTable,
 			raid = filterTable,
 		}
