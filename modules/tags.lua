@@ -719,8 +719,7 @@ Tags.defaultTags = {
 		if( UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit) ) then
 			return UnitBattlePetLevel(unit)
 		end
-
-		local level = UnitLevel(unit)
+		local level = UnitLevel(unit) or 0
 		return level > 0 and level or UnitClassification(unit) ~= "worldboss" and "??" or nil
 	end]],
 	["maxhp"] = [[function(unit, unitOwner) return ShadowUF:FormatLargeNumber(UnitHealthMax(unit)) end]],

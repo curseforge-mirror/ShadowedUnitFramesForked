@@ -82,15 +82,13 @@ local function checkRange(self)
 end
 
 local function isUsable(key)
-	print(key)
-	local isUsable, _ = C_Spell.IsSpellUsable(key)
-	return isUsable
+	if key and not type(key) == "table" then
+		local isUsable, _ = C_Spell.IsSpellUsable(key)
+		return isUsable
+	end
 end
 
 local function updateSpellCache(category)
-print(category .. playerClass)
-Outfitter:DebugTable(ShadowUF.db.profile.range)
-	print(ShadowUF.db.profile.range)
 	rangeSpells[category] = nil
 	if( isUsable(ShadowUF.db.profile.range[category .. playerClass]) ) then
 		rangeSpells[category] = ShadowUF.db.profile.range[category .. playerClass]
@@ -102,9 +100,16 @@ Outfitter:DebugTable(ShadowUF.db.profile.range)
 		if( type(Range[category][playerClass]) == "table" ) then
 			for i = 1, #Range[category][playerClass] do
 				local spell = Range[category][playerClass][i]
-				if( isUsable(spell) ) then
-					rangeSpells[category] = spell
-					break
+				if( type(spell) == "table") then
+					if( isUsable(spell.spellID) ) then
+						rangeSpells[category] = spell
+						break
+					end
+				else
+					if( isUsable(spell) ) then
+						rangeSpells[category] = spell
+						break
+					end
 				end
 			end
 		elseif( isUsable(Range[category][playerClass]) ) then
