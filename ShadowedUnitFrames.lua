@@ -708,7 +708,11 @@ function ShadowUF:HideBlizzardFrames()
 		if( PartyFrame ) then
 			hideBlizzardFrames(false, PartyFrame)
 			for memberFrame in PartyFrame.PartyMemberFramePool:EnumerateActive() do
-				hideBlizzardFrames(false, memberFrame, memberFrame.HealthBar, memberFrame.ManaBar)
+				if memberFrame.HealthBarContainer and memberFrame.HealthBarContainer.HealthBar then
+					hideBlizzardFrames(false, memberFrame, memberFrame.HealthBarContainer.HealthBar, memberFrame.ManaBar)
+				else
+					hideBlizzardFrames(false, memberFrame, memberFrame.HealthBar, memberFrame.ManaBar)
+				end
 			end
 			PartyFrame.PartyMemberFramePool:ReleaseAll()
 		else
@@ -794,7 +798,11 @@ function ShadowUF:HideBlizzardFrames()
 		for i=1, MAX_BOSS_FRAMES do
 			local name = "Boss" .. i .. "TargetFrame"
 			if _G[name].TargetFrameContent then
-				hideBlizzardFrames(false, _G[name], _G[name].TargetFrameContent.TargetFrameContentMain.HealthBar, _G[name].TargetFrameContent.TargetFrameContentMain.ManaBar)
+				if _G[name].TargetFrameContent.TargetFrameContentMain.HealthBarsContainer then
+					hideBlizzardFrames(false, _G[name], _G[name].TargetFrameContent.TargetFrameContentMain.HealthBarsContainer.HealthBar, _G[name].TargetFrameContent.TargetFrameContentMain.ManaBar)
+				else
+					hideBlizzardFrames(false, _G[name], _G[name].TargetFrameContent.TargetFrameContentMain.HealthBar, _G[name].TargetFrameContent.TargetFrameContentMain.ManaBar)
+				end
 			else
 				hideBlizzardFrames(false, _G[name], _G[name .. "HealthBar"], _G[name .. "ManaBar"])
 			end
