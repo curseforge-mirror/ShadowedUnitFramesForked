@@ -42,6 +42,7 @@ read_globals = {
 
 	-- API functions
 	"C_IncomingSummon",
+	"C_Spell",
 	"C_Timer",
 	"CancelUnitBuff",
 	"CanHearthAndResurrectFromArea",

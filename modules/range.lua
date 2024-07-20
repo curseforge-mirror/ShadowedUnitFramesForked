@@ -1,43 +1,44 @@
+local GetSpellName = C_Spell and C_Spell.GetSpellName or GetSpellInfo
 local Range = {
 	friendly = {
 		["PRIEST"] = {
-			(GetSpellInfo(17)), -- Power Word: Shield
-			(GetSpellInfo(527)), -- Purify
+			(GetSpellName(17)), -- Power Word: Shield
+			(GetSpellName(527)), -- Purify
 		},
 		["DRUID"] = {
-			(GetSpellInfo(774)), -- Rejuvenation
-			(GetSpellInfo(2782)), -- Remove Corruption
+			(GetSpellName(774)), -- Rejuvenation
+			(GetSpellName(2782)), -- Remove Corruption
 		},
-		["PALADIN"] = GetSpellInfo(19750), -- Flash of Light
-		["SHAMAN"] = GetSpellInfo(8004), -- Healing Surge
-		["WARLOCK"] = GetSpellInfo(5697), -- Unending Breath
-		--["DEATHKNIGHT"] = GetSpellInfo(47541), -- Death Coil
-		["MONK"] = GetSpellInfo(115450), -- Detox
+		["PALADIN"] = GetSpellName(19750), -- Flash of Light
+		["SHAMAN"] = GetSpellName(8004), -- Healing Surge
+		["WARLOCK"] = GetSpellName(5697), -- Unending Breath
+		--["DEATHKNIGHT"] = GetSpellName(47541), -- Death Coil
+		["MONK"] = GetSpellName(115450), -- Detox
 	},
 	hostile = {
 		["DEATHKNIGHT"] = {
-			(GetSpellInfo(47541)), -- Death Coil
-			(GetSpellInfo(49576)), -- Death Grip
+			(GetSpellName(47541)), -- Death Coil
+			(GetSpellName(49576)), -- Death Grip
 		},
-		["DEMONHUNTER"] = GetSpellInfo(185123), -- Throw Glaive
-		["DRUID"] = GetSpellInfo(8921),  -- Moonfire
+		["DEMONHUNTER"] = GetSpellName(185123), -- Throw Glaive
+		["DRUID"] = GetSpellName(8921),  -- Moonfire
 		["HUNTER"] = {
-			(GetSpellInfo(193455)), -- Cobra Shot
-			(GetSpellInfo(19434)), -- Aimed Short
-			(GetSpellInfo(193265)), -- Hatchet Toss
+			(GetSpellName(193455)), -- Cobra Shot
+			(GetSpellName(19434)), -- Aimed Short
+			(GetSpellName(193265)), -- Hatchet Toss
 		},
 		["MAGE"] = {
-			(GetSpellInfo(116)), -- Frostbolt
-			(GetSpellInfo(30451)), -- Arcane Blast
-			(GetSpellInfo(133)), -- Fireball
+			(GetSpellName(116)), -- Frostbolt
+			(GetSpellName(30451)), -- Arcane Blast
+			(GetSpellName(133)), -- Fireball
 		},
-		["MONK"] = GetSpellInfo(115546), -- Provoke
-		["PALADIN"] = GetSpellInfo(62124), -- Hand of Reckoning
-		["PRIEST"] = GetSpellInfo(585), -- Smite
-		--["ROGUE"] = GetSpellInfo(1725), -- Distract
-		["SHAMAN"] = GetSpellInfo(403), -- Lightning Bolt
-		["WARLOCK"] = GetSpellInfo(686), -- Shadow Bolt
-		["WARRIOR"] = GetSpellInfo(355), -- Taunt
+		["MONK"] = GetSpellName(115546), -- Provoke
+		["PALADIN"] = GetSpellName(62124), -- Hand of Reckoning
+		["PRIEST"] = GetSpellName(585), -- Smite
+		--["ROGUE"] = GetSpellName(1725), -- Distract
+		["SHAMAN"] = GetSpellName(403), -- Lightning Bolt
+		["WARLOCK"] = GetSpellName(686), -- Shadow Bolt
+		["WARRIOR"] = GetSpellName(355), -- Taunt
 	},
 }
 

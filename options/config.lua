@@ -6,6 +6,9 @@ local L = ShadowUF.L
 
 ShadowUF.Config = Config
 
+local GetSpellName = C_Spell and C_Spell.GetSpellName or GetSpellInfo
+local GetSpellTexture = C_Spell and  C_Spell.GetSpellTexture or function(id) return (select(3, GetSpellInfo(id))) end
+
 --[[
 	The part that makes configuration a pain when you actually try is it gets unwieldly when you're adding special code to deal with
 	showing help for certain cases, swapping tabs etc that makes it work smoothly.
@@ -497,7 +500,7 @@ local function loadGeneralOptions()
 	}
 
 	local function validateSpell(info, spell)
-		if( spell and spell ~= "" and not GetSpellInfo(spell) ) then
+		if( spell and spell ~= "" and not GetSpellName(spell) ) then
 			return string.format(L["Invalid spell \"%s\" entered."], spell or "")
 		end
 
@@ -520,7 +523,7 @@ local function loadGeneralOptions()
 			text = L["Alternate Spell Name"]
 		end
 
-		local icon = select(3, GetSpellInfo(name))
+		local icon = GetSpellTexture(name)
 		if( not icon ) then
 			icon = "Interface\\Icons\\Inv_misc_questionmark"
 		end
@@ -5210,7 +5213,8 @@ local function loadFilterOptions()
 		name = function(info)
 				local name = spellMap[info[#(info)]]
 				if tonumber(name) then
-					local spellName, _, icon = GetSpellInfo(name)
+					local spellName = GetSpellName(name)
+					local icon = GetSpellTexture(name)
 					name = string.format("|T%s:14:14:0:0|t %s (#%i)", icon or "Interface\\Icons\\Inv_misc_questionmark", spellName or L["Unknown"], name)
 				end
 				return name
@@ -6438,7 +6442,7 @@ local function loadAuraIndicatorsOptions()
 		for name in pairs(ShadowUF.db.profile.auraIndicators.auras) do
 			if( tonumber(name) ) then
 				local spellID = name
-				name = GetSpellInfo(name) or L["Unknown"]
+				name = GetSpellName(name) or L["Unknown"]
 				auraList[name] = string.format("%s (#%i)", name, spellID)
 			else
 				auraList[name] = name
@@ -6515,11 +6519,11 @@ local function loadAuraIndicatorsOptions()
 		type = "group",
 		icon = function(info)
 			local aura = auraMap[info[#(info)]]
-			return tonumber(aura) and (select(3, GetSpellInfo(aura))) or nil
+			return tonumber(aura) and (GetSpellTexture(aura)) or nil
 		end,
 		name = function(info)
 			local aura = auraMap[info[#(info)]]
-			return tonumber(aura) and string.format("%s (#%i)", GetSpellInfo(aura) or "Unknown", aura) or aura
+			return tonumber(aura) and string.format("%s (#%i)", GetSpellName(aura) or "Unknown", aura) or aura
 		end,
 		hidden = function(info)
 			local group = groupMap[info[#(info) - 1]]
@@ -6894,11 +6898,11 @@ local function loadAuraIndicatorsOptions()
 		type = "group",
 		icon = function(info)
 			local aura = auraMap[info[#(info)]]
-			return tonumber(aura) and (select(3, GetSpellInfo(aura))) or nil
+			return tonumber(aura) and (GetSpellTexture(aura)) or nil
 		end,
 		name = function(info)
 			local aura = linkMap[info[#(info)]]
-			return tonumber(aura) and string.format("%s (#%i)", GetSpellInfo(aura) or "Unknown", aura) or aura
+			return tonumber(aura) and string.format("%s (#%i)", GetSpellName(aura) or "Unknown", aura) or aura
 		end,
 		args = {},
 	}
@@ -6907,11 +6911,11 @@ local function loadAuraIndicatorsOptions()
 		order = 1,
 		icon = function(info)
 			local aura = auraMap[info[#(info)]]
-			return tonumber(aura) and (select(3, GetSpellInfo(aura))) or nil
+			return tonumber(aura) and (GetSpellTexture(aura)) or nil
 		end,
 		name = function(info)
 			local aura = linkMap[info[#(info)]]
-			return tonumber(aura) and string.format("%s (#%i)", GetSpellInfo(aura) or "Unknown", aura) or aura
+			return tonumber(aura) and string.format("%s (#%i)", GetSpellName(aura) or "Unknown", aura) or aura
 		end,
 		hidden = function(info)
 			local aura = linkMap[info[#(info)]]
@@ -7208,8 +7212,8 @@ local function loadAuraIndicatorsOptions()
 									-- Don't overwrite an existing group, but don't tell them either, mostly because I don't want to add error reporting code
 									if( not ShadowUF.db.profile.auraIndicators.auras[addAura.name] ) then
 										-- Odds are, if they are saying to show it only if a buff is missing it's cause they want to know when their own class buff is not there
-										-- so will cheat it, and jump start it by storing the texture if we find it from GetSpellInfo directly
-										Indicators.auraConfig[addAura.name] = {indicator = "", group = group, iconTexture = select(3, GetSpellInfo(addAura.name)), priority = 0, r = 0, g = 0, b = 0}
+										-- so will cheat it, and jump start it by storing the texture if we find it from GetSpellTexture directly
+										Indicators.auraConfig[addAura.name] = {indicator = "", group = group, iconTexture = GetSpellTexture(addAura.name), priority = 0, r = 0, g = 0, b = 0}
 										writeAuraTable(addAura.name)
 
 										auraID = auraID + 1
@@ -7437,13 +7441,14 @@ local function loadAuraIndicatorsOptions()
 		type = "toggle",
 		icon = function(info)
 			local aura = auraMap[info[#(info)]]
-			return tonumber(aura) and (select(3, GetSpellInfo(aura))) or nil
+			return tonumber(aura) and (GetSpellTexture(aura)) or nil
 		end,
 		name = function(info)
 			local aura = tonumber(auraMap[info[#(info)]])
 			if( not aura ) then	return auraMap[info[#(info)]] end
 
-			local name, _, icon = GetSpellInfo(aura)
+			local name = GetSpellName(aura)
+			local icon = GetSpellTexture(aura)
 			if( not name ) then return name end
 
 			return "|T" .. icon .. ":18:18:0:0|t " .. name
