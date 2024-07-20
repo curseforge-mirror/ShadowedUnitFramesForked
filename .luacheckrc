@@ -45,6 +45,7 @@ read_globals = {
 	"C_IncomingSummon",
 	"C_Spell",
 	"C_Timer",
+	"C_UnitAuras",
 	"CancelUnitBuff",
 	"CanHearthAndResurrectFromArea",
 	"CreateFrame",
@@ -81,7 +82,6 @@ read_globals = {
 	"IsUsableSpell",
 	"IsXPUserDisabled",
 	"UnitAffectingCombat",
-	"UnitAura",
 	"UnitBattlePetType",
 	"UnitCanAssist",
 	"UnitCanAttack",
@@ -176,6 +176,7 @@ read_globals = {
 	"WarlockPowerFrame",
 
 	-- FrameXML functions
+	"AuraUtil.UnpackAuraData",
 	"BackdropTemplateMixin",
 	"CombatFeedback_OnCombatEvent",
 	"CombatFeedback_OnUpdate",

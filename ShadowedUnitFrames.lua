@@ -91,15 +91,22 @@ function ShadowUF:OnInitialize()
 end
 
 function ShadowUF.UnitAuraBySpell(unit, spell, filter)
-	local index = 0
-	while true do
-		index = index + 1
-		local name, _, _, _, _, _, _, _, _, spellID = UnitAura(unit, index, filter)
-		if not name then break end
-		if (type(spell) == "string" and spell == name) or (type(spell) == "number" and spell == spellID) then
-			return UnitAura(unit, index, filter)
+	local auraData
+	if type(spell) == "string" then
+		auraData = C_UnitAuras.GetAuraDataBySpellName(unit, spell, filter)
+	elseif type(spell) == "number" then
+		local index = 0
+		while true do
+			index = index + 1
+			local data = C_UnitAuras.GetAuraDataByIndex(unit, index, filter)
+			if not data then break end
+			if data.spellId == spell then
+				auraData = data
+				break
+			end
 		end
 	end
+	return AuraUtil.UnpackAuraData(auraData)
 end
 
 function ShadowUF:CheckBuild()
