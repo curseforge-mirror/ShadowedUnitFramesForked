@@ -700,7 +700,7 @@ Tags.defaultTags = {
 			return nil
 		end
 
-		local level = UnitLevel(unit)
+		local level = UnitLevel(unit) or 0
 		if( level < 0 and UnitClassification(unit) == "worldboss" ) then
 			return nil
 		end
@@ -722,7 +722,7 @@ Tags.defaultTags = {
 			return UnitBattlePetLevel(unit)
 		end
 
-		local level = UnitLevel(unit)
+		local level = UnitLevel(unit) or 0
 		return level > 0 and level or UnitClassification(unit) ~= "worldboss" and "??" or nil
 	end]],
 	["maxhp"] = [[function(unit, unitOwner) return ShadowUF:FormatLargeNumber(UnitHealthMax(unit)) end]],
