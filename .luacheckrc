@@ -41,6 +41,7 @@ read_globals = {
 	"LibStub",
 
 	-- API functions
+	"C_AddOns",
 	"C_IncomingSummon",
 	"C_Spell",
 	"C_Timer",
@@ -71,7 +72,6 @@ read_globals = {
 	"GetXPExhaustion",
 	"HasLFGRestrictions",
 	"InCombatLockdown",
-	"IsAddOnLoaded",
 	"IsEveryoneAssistant",
 	"IsInInstance",
 	"IsPlayerSpell",
@@ -80,7 +80,6 @@ read_globals = {
 	"IsSpellKnown",
 	"IsUsableSpell",
 	"IsXPUserDisabled",
-	"LoadAddOn",
 	"UnitAffectingCombat",
 	"UnitAura",
 	"UnitBattlePetType",

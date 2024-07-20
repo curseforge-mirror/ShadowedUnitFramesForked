@@ -581,7 +581,7 @@ end
 -- Module APIs
 function ShadowUF:RegisterModule(module, key, name, isBar, class, spec, level)
 	-- Prevent duplicate registration for deprecated plugin
-	if( key == "auraIndicators" and IsAddOnLoaded("ShadowedUF_Indicators") and self.modules.auraIndicators ) then
+	if( key == "auraIndicators" and C_AddOns.IsAddOnLoaded("ShadowedUF_Indicators") and self.modules.auraIndicators ) then
 		self:Print(L["WARNING! ShadowedUF_Indicators has been deprecated as v4 and is now built in. Please delete ShadowedUF_Indicators, your configuration will be saved."])
 		return
 	end
@@ -915,7 +915,7 @@ SlashCmdList["SHADOWEDUF"] = function(msg)
 		return
 	end
 
-	local loaded, reason = LoadAddOn("ShadowedUF_Options")
+	local loaded, reason = C_AddOns.LoadAddOn("ShadowedUF_Options")
 	if( not ShadowUF.Config ) then
 		DEFAULT_CHAT_FRAME:AddMessage(string.format(L["Failed to load ShadowedUF_Options, cannot open configuration. Error returned: %s"], reason and _G["ADDON_" .. reason] or ""))
 		return
