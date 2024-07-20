@@ -523,7 +523,7 @@ local function loadGeneralOptions()
 			text = L["Alternate Spell Name"]
 		end
 
-		local icon = GetSpellTexture(name)
+		local icon = name and GetSpellTexture(name)
 		if( not icon ) then
 			icon = "Interface\\Icons\\Inv_misc_questionmark"
 		end
