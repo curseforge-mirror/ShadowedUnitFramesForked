@@ -594,7 +594,7 @@ local function scan(parent, frame, type, config, displayConfig, filter)
 	local index = 0
 	while( true ) do
 		index = index + 1
-		local name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff = UnitAura(frame.parent.unit, index, filter)
+		local name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff = AuraUtil.UnpackAuraData(C_UnitAuras.GetAuraDataByIndex(frame.parent.unit, index, filter))
 		if( not name ) then break end
 
 		renderAura(parent, frame, type, config, displayConfig, index, filter, isFriendly, curable, name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff)

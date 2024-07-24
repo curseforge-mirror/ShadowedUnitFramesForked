@@ -3,6 +3,8 @@ ShadowUF:RegisterModule(Indicators, "auraIndicators", ShadowUF.L["Aura indicator
 
 Indicators.auraFilters = {"boss", "curable"}
 
+local GetSpellTexture = C_Spell and  C_Spell.GetSpellTexture or function(id) return (select(3, GetSpellInfo(id))) end
+
 Indicators.auraConfig = setmetatable({}, {
 	__index = function(tbl, index)
 		local aura = ShadowUF.db.profile.auraIndicators.auras[tostring(index)]
@@ -191,7 +193,7 @@ local function scanAuras(frame, filter, type)
 	local index = 0
 	while( true ) do
 		index = index + 1
-		local name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff = UnitAura(frame.unit, index, filter)
+		local name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff = AuraUtil.UnpackAuraData(C_UnitAuras.GetAuraDataByIndex(frame.unit, index, filter))
 		if( not name ) then return end
 
 		local result = checkFilterAura(frame, type, isFriendly, name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff)
@@ -274,7 +276,7 @@ function Indicators:UpdateAuras(frame)
 				indicator.showDuration = aura.duration
 				indicator.spellDuration = 0
 				indicator.spellEnd = 0
-				indicator.spellIcon = aura.iconTexture or select(3, GetSpellInfo(name))
+				indicator.spellIcon = aura.iconTexture or GetSpellTexture(name)
 				indicator.colorR = aura.r
 				indicator.colorG = aura.g
 				indicator.colorB = aura.b

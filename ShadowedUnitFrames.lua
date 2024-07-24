@@ -91,15 +91,22 @@ function ShadowUF:OnInitialize()
 end
 
 function ShadowUF.UnitAuraBySpell(unit, spell, filter)
-	local index = 0
-	while true do
-		index = index + 1
-		local name, _, _, _, _, _, _, _, _, spellID = UnitAura(unit, index, filter)
-		if not name then break end
-		if (type(spell) == "string" and spell == name) or (type(spell) == "number" and spell == spellID) then
-			return UnitAura(unit, index, filter)
+	local auraData
+	if type(spell) == "string" then
+		auraData = C_UnitAuras.GetAuraDataBySpellName(unit, spell, filter)
+	elseif type(spell) == "number" then
+		local index = 0
+		while true do
+			index = index + 1
+			local data = C_UnitAuras.GetAuraDataByIndex(unit, index, filter)
+			if not data then break end
+			if data.spellId == spell then
+				auraData = data
+				break
+			end
 		end
 	end
+	return AuraUtil.UnpackAuraData(auraData)
 end
 
 function ShadowUF:CheckBuild()
@@ -581,7 +588,7 @@ end
 -- Module APIs
 function ShadowUF:RegisterModule(module, key, name, isBar, class, spec, level)
 	-- Prevent duplicate registration for deprecated plugin
-	if( key == "auraIndicators" and IsAddOnLoaded("ShadowedUF_Indicators") and self.modules.auraIndicators ) then
+	if( key == "auraIndicators" and C_AddOns.IsAddOnLoaded("ShadowedUF_Indicators") and self.modules.auraIndicators ) then
 		self:Print(L["WARNING! ShadowedUF_Indicators has been deprecated as v4 and is now built in. Please delete ShadowedUF_Indicators, your configuration will be saved."])
 		return
 	end
@@ -708,7 +715,11 @@ function ShadowUF:HideBlizzardFrames()
 		if( PartyFrame ) then
 			hideBlizzardFrames(false, PartyFrame)
 			for memberFrame in PartyFrame.PartyMemberFramePool:EnumerateActive() do
-				hideBlizzardFrames(false, memberFrame, memberFrame.HealthBar, memberFrame.ManaBar)
+				if memberFrame.HealthBarContainer and memberFrame.HealthBarContainer.HealthBar then
+					hideBlizzardFrames(false, memberFrame, memberFrame.HealthBarContainer.HealthBar, memberFrame.ManaBar)
+				else
+					hideBlizzardFrames(false, memberFrame, memberFrame.HealthBar, memberFrame.ManaBar)
+				end
 			end
 			PartyFrame.PartyMemberFramePool:ReleaseAll()
 		else
@@ -794,7 +805,11 @@ function ShadowUF:HideBlizzardFrames()
 		for i=1, MAX_BOSS_FRAMES do
 			local name = "Boss" .. i .. "TargetFrame"
 			if _G[name].TargetFrameContent then
-				hideBlizzardFrames(false, _G[name], _G[name].TargetFrameContent.TargetFrameContentMain.HealthBar, _G[name].TargetFrameContent.TargetFrameContentMain.ManaBar)
+				if _G[name].TargetFrameContent.TargetFrameContentMain.HealthBarsContainer then
+					hideBlizzardFrames(false, _G[name], _G[name].TargetFrameContent.TargetFrameContentMain.HealthBarsContainer.HealthBar, _G[name].TargetFrameContent.TargetFrameContentMain.ManaBar)
+				else
+					hideBlizzardFrames(false, _G[name], _G[name].TargetFrameContent.TargetFrameContentMain.HealthBar, _G[name].TargetFrameContent.TargetFrameContentMain.ManaBar)
+				end
 			else
 				hideBlizzardFrames(false, _G[name], _G[name .. "HealthBar"], _G[name .. "ManaBar"])
 			end
@@ -915,7 +930,7 @@ SlashCmdList["SHADOWEDUF"] = function(msg)
 		return
 	end
 
-	local loaded, reason = LoadAddOn("ShadowedUF_Options")
+	local loaded, reason = C_AddOns.LoadAddOn("ShadowedUF_Options")
 	if( not ShadowUF.Config ) then
 		DEFAULT_CHAT_FRAME:AddMessage(string.format(L["Failed to load ShadowedUF_Options, cannot open configuration. Error returned: %s"], reason and _G["ADDON_" .. reason] or ""))
 		return
