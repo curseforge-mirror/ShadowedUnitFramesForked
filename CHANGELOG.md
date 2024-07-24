@@ -1,6 +1,14 @@
 # Shadowed Unit Frames
 
-## [v4.4.8-1-g1976436](https://github.com/Nevcairiel/ShadowedUnitFrames/tree/19764362ad5b43a5dd89ebf26d6a02280b04c99e) (2024-06-27)
-[Full Changelog](https://github.com/Nevcairiel/ShadowedUnitFrames/compare/v4.4.8...19764362ad5b43a5dd89ebf26d6a02280b04c99e) [Previous Releases](https://github.com/Nevcairiel/ShadowedUnitFrames/releases)
+## [v4.4.8-9-g4c0ed7e](https://github.com/Nevcairiel/ShadowedUnitFrames/tree/4c0ed7e0713aa4242ce9daa281764b0fc9db3916) (2024-07-20)
+[Full Changelog](https://github.com/Nevcairiel/ShadowedUnitFrames/compare/v4.4.8...4c0ed7e0713aa4242ce9daa281764b0fc9db3916) [Previous Releases](https://github.com/Nevcairiel/ShadowedUnitFrames/releases)
 
+- Safety check for valid spell being set  
+- Update Aura API changes  
+- Update HideBlizzard for health bar changes  
+- Safety for UnitLevel  
+- Spell API updates for Range module  
+- Update TOC  
+- Update C\_AddOns APIs  
+- GetSpellInfo API replacements  
 - Remove defunct battleground zone filter  

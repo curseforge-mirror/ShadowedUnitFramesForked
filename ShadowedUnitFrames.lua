@@ -91,15 +91,22 @@ function ShadowUF:OnInitialize()
 end
 
 function ShadowUF.UnitAuraBySpell(unit, spell, filter)
-	local index = 0
-	while true do
-		index = index + 1
-		local name, _, _, _, _, _, _, _, _, spellID = UnitAura(unit, index, filter)
-		if not name then break end
-		if (type(spell) == "string" and spell == name) or (type(spell) == "number" and spell == spellID) then
-			return UnitAura(unit, index, filter)
+	local auraData
+	if type(spell) == "string" then
+		auraData = C_UnitAuras.GetAuraDataBySpellName(unit, spell, filter)
+	elseif type(spell) == "number" then
+		local index = 0
+		while true do
+			index = index + 1
+			local data = C_UnitAuras.GetAuraDataByIndex(unit, index, filter)
+			if not data then break end
+			if data.spellId == spell then
+				auraData = data
+				break
+			end
 		end
 	end
+	return AuraUtil.UnpackAuraData(auraData)
 end
 
 function ShadowUF:CheckBuild()
@@ -671,33 +678,29 @@ end
 local function basicHideBlizzardFrames(...)
 	for i=1, select("#", ...) do
 		local frame = select(i, ...)
-		if frame then
 		frame:UnregisterAllEvents()
 		frame:HookScript("OnShow", rehideFrame)
 		frame:Hide()
-		end
 	end
 end
 
 local function hideBlizzardFrames(taint, ...)
 	for i=1, select("#", ...) do
 		local frame = select(i, ...)
-		if frame then
 		UnregisterUnitWatch(frame)
 		frame:UnregisterAllEvents()
 		frame:Hide()
 
-		if frame.manabar  then frame.manabar:UnregisterAllEvents() end
-		if frame.healthbar  then frame.healthbar:UnregisterAllEvents() end
-		if frame.spellbar  then frame.spellbar:UnregisterAllEvents() end
-		if frame.powerBarAlt  then frame.powerBarAlt:UnregisterAllEvents() end
+		if( frame.manabar ) then frame.manabar:UnregisterAllEvents() end
+		if( frame.healthbar ) then frame.healthbar:UnregisterAllEvents() end
+		if( frame.spellbar ) then frame.spellbar:UnregisterAllEvents() end
+		if( frame.powerBarAlt ) then frame.powerBarAlt:UnregisterAllEvents() end
 
-		if taint  then
+		if( taint ) then
 			frame.Show = ShadowUF.noop
 		else
 			frame:SetParent(ShadowUF.hiddenFrame)
 			frame:HookScript("OnShow", rehideFrame)
-		end
 		end
 	end
 end
@@ -712,7 +715,11 @@ function ShadowUF:HideBlizzardFrames()
 		if( PartyFrame ) then
 			hideBlizzardFrames(false, PartyFrame)
 			for memberFrame in PartyFrame.PartyMemberFramePool:EnumerateActive() do
-				hideBlizzardFrames(false, memberFrame, memberFrame.HealthBar, memberFrame.ManaBar)
+				if memberFrame.HealthBarContainer and memberFrame.HealthBarContainer.HealthBar then
+					hideBlizzardFrames(false, memberFrame, memberFrame.HealthBarContainer.HealthBar, memberFrame.ManaBar)
+				else
+					hideBlizzardFrames(false, memberFrame, memberFrame.HealthBar, memberFrame.ManaBar)
+				end
 			end
 			PartyFrame.PartyMemberFramePool:ReleaseAll()
 		else
@@ -798,7 +805,11 @@ function ShadowUF:HideBlizzardFrames()
 		for i=1, MAX_BOSS_FRAMES do
 			local name = "Boss" .. i .. "TargetFrame"
 			if _G[name].TargetFrameContent then
-				hideBlizzardFrames(false, _G[name], _G[name].TargetFrameContent.TargetFrameContentMain.HealthBar, _G[name].TargetFrameContent.TargetFrameContentMain.ManaBar)
+				if _G[name].TargetFrameContent.TargetFrameContentMain.HealthBarsContainer then
+					hideBlizzardFrames(false, _G[name], _G[name].TargetFrameContent.TargetFrameContentMain.HealthBarsContainer.HealthBar, _G[name].TargetFrameContent.TargetFrameContentMain.ManaBar)
+				else
+					hideBlizzardFrames(false, _G[name], _G[name].TargetFrameContent.TargetFrameContentMain.HealthBar, _G[name].TargetFrameContent.TargetFrameContentMain.ManaBar)
+				end
 			else
 				hideBlizzardFrames(false, _G[name], _G[name .. "HealthBar"], _G[name .. "ManaBar"])
 			end
