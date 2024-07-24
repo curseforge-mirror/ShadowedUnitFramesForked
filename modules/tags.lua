@@ -382,14 +382,14 @@ end})
 
 -- Going to have to start using an env wrapper for tags I think
 local Druid = {}
-Druid.CatForm = GetSpellName(768)
-Druid.MoonkinForm = GetSpellName(24858)
-Druid.TravelForm = GetSpellName(783)
-Druid.BearForm = GetSpellName(5487)
-Druid.TreeForm = GetSpellName(33891)
-Druid.AquaticForm = GetSpellName(1066)
-Druid.SwiftFlightForm = GetSpellName(40120)
-Druid.FlightForm = GetSpellName(33943)
+Druid.CatForm = C_Spell.GetSpellInfo(768)
+Druid.MoonkinForm = C_Spell.GetSpellInfo(24858)
+Druid.TravelForm = C_Spell.GetSpellInfo(783)
+Druid.BearForm = C_Spell.GetSpellInfo(5487)
+Druid.TreeForm = C_Spell.GetSpellInfo(33891)
+Druid.AquaticForm = C_Spell.GetSpellInfo(1066)
+Druid.SwiftFlightForm = C_Spell.GetSpellInfo(40120)
+Druid.FlightForm = C_Spell.GetSpellInfo(33943)
 ShadowUF.Druid = Druid
 
 Tags.defaultTags = {
@@ -721,7 +721,6 @@ Tags.defaultTags = {
 		if( UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit) ) then
 			return UnitBattlePetLevel(unit)
 		end
-
 		local level = UnitLevel(unit) or 0
 		return level > 0 and level or UnitClassification(unit) ~= "worldboss" and "??" or nil
 	end]],
